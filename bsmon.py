@@ -22,7 +22,7 @@ else:
     syslog.syslog('Hostname is ' + hostname)
 
     if is_integer(hostname[-1]):
-        offset = int(hostname[-1]) / 10
+        offset = float(hostname[-1]) / 10
     else:
         offset = 0
     
