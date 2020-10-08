@@ -71,6 +71,43 @@ def resource_indication(bstick,offset):
             bstick.set_color(index=1,red=mem_intensity,green=255 - mem_intensity,blue=0)
 
 
+# Christmas das blinkenlights instead of indicating resource utilization
+# Green/Red lights only
+def christmas_indication_gr(bstick,offset):
+    from random import randint
+
+    syslog('Entering christmas g/r mode.')
+
+    # Enter randomize starting state
+    i = 0
+    while (i <= 1):
+        light_color = randint(1,2)
+        if light_color == 1:
+            r = 255
+            g = 0
+        else:
+            r = 0
+            g = 255
+        bstick.set_color(index=i,red=r,green=g,blue=0)
+        i += 1
+
+    #go into a forever loop
+    while True:
+        light_color = randint(1,2)
+        light_duration = randint(4,16)
+        light_index = randint(0,1)
+        if light_color == 1:
+            r = 255
+            g = 0
+        else:
+            r = 0
+            g = 255
+    
+        bstick.set_color(index=light_index,red=r,green=g,blue=0)
+
+        sleep(light_duration)
+
+
 def main():
     bstick = blinkstick.find_first()
 
@@ -87,7 +124,8 @@ def main():
     if offset <> 0:
         blink_node_num(bstick,int(offset*10))
 
-    resource_indication(bstick,offset)
+    #resource_indication(bstick,offset)
+    christmas_indication_gr(bstick,offset)
 
     syslog("Exiting normally.")
 
