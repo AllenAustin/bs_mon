@@ -81,30 +81,81 @@ def christmas_indication_gr(bstick,offset):
     # Enter randomize starting state
     i = 0
     while (i <= 1):
-        light_color = randint(1,2)
+        light_color = randint(1,3)
         if light_color == 1:
             r = 255
             g = 0
-        else:
+        elif light_color == 2:
             r = 0
             g = 255
+        else:
+            r = 0
+            g = 0
         bstick.set_color(index=i,red=r,green=g,blue=0)
         i += 1
 
     #go into a forever loop
     while True:
         light_color = randint(1,2)
-        light_duration = randint(4,16)
+        light_duration = randint(4,10)
         light_index = randint(0,1)
         if light_color == 1:
             r = 255
             g = 0
-        else:
+        elif light_color == 2:
             r = 0
             g = 255
+        else:
+            r = 0
+            g = 0
     
         bstick.set_color(index=light_index,red=r,green=g,blue=0)
 
+        sleep(light_duration)
+
+
+def halloween_indication(bstick, offset):
+    from random import randint
+
+    syslog('Entering haloween p/o mode.')
+
+    # Enter randomize starting state
+    i = 0
+    while (i <= 1):
+        light_color = randint(1,3)
+        if light_color == 1:
+            r = 191
+            g = 0
+            b = 255
+        elif light_color == 2:
+            r = 255
+            g = 128
+            b = 0
+        else:
+            r = 0
+            g = 0
+            b = 0
+        bstick.set_color(index=i,red=r,green=g,blue=b)
+        i += 1
+
+    #go into a forever loop
+    while True:
+        light_color = randint(1,2)
+        light_duration = randint(4,10)
+        light_index = randint(0,1)
+        if light_color == 1:
+            r = 191
+            g = 0
+            b = 255
+        elif light_color == 2:
+            r = 255
+            g = 128
+            b = 0
+        else:
+            r = 0
+            g = 0
+            b = 0
+        bstick.set_color(index=light_index,red=r,green=g,blue=b)
         sleep(light_duration)
 
 
@@ -125,7 +176,8 @@ def main():
         blink_node_num(bstick,int(offset*10))
 
     #resource_indication(bstick,offset)
-    christmas_indication_gr(bstick,offset)
+    #christmas_indication_gr(bstick,offset)
+    halloween_indication(bstick,offset)
 
     syslog("Exiting normally.")
 
