@@ -97,7 +97,7 @@ def christmas_indication_gr(bstick,offset):
     #go into a forever loop
     while True:
         light_color = randint(1,2)
-        light_duration = randint(4,10)
+        light_duration = randint(1,12)
         light_index = randint(0,1)
         if light_color == 1:
             r = 255
@@ -123,14 +123,17 @@ def halloween_indication(bstick, offset):
     i = 0
     while (i <= 1):
         light_color = randint(1,3)
+        # purple
         if light_color == 1:
-            r = 191
+            r = 102
             g = 0
             b = 255
+        # orange
         elif light_color == 2:
             r = 255
             g = 128
             b = 0
+        # off
         else:
             r = 0
             g = 0
@@ -141,16 +144,19 @@ def halloween_indication(bstick, offset):
     #go into a forever loop
     while True:
         light_color = randint(1,2)
-        light_duration = randint(4,10)
+        light_duration = randint(1,12)
         light_index = randint(0,1)
+        # purple
         if light_color == 1:
-            r = 191
+            r = 102
             g = 0
             b = 255
+        # orange
         elif light_color == 2:
             r = 255
             g = 128
             b = 0
+        # off
         else:
             r = 0
             g = 0
