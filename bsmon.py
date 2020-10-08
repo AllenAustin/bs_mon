@@ -47,12 +47,12 @@ def main():
     else:    
         syslog.syslog('Blinkstick found.')
 
-    offset = get_k8s_node_num()       
+    offset = get_k8s_node_num()
     syslog.syslog('Offset is ' + str(offset) + ' seconds')
 
     blink_startup(bstick)
     if offset <> 0:
-        blink_node_num(bstick,offset)
+        blink_node_num(bstick,int(offset*10)
 
     #go into a forever loop
     syslog.syslog('Entering monitoring loop.')
