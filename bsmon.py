@@ -52,7 +52,7 @@ def main():
 
     blink_startup(bstick)
     if offset <> 0:
-        blink_node_num(bstick,int(offset*10)
+        blink_node_num(bstick,int(offset*10))
 
     #go into a forever loop
     syslog.syslog('Entering monitoring loop.')
