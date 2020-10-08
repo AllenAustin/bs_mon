@@ -1,5 +1,6 @@
 from blinkstick import blinkstick
-import psutil, syslog, time, socket
+from syslog import syslog
+import psutil, time, socket
 
 # Helper function - figures out if passed value could be converted to an integer
 def is_integer(n):
@@ -15,7 +16,7 @@ def is_integer(n):
 def get_k8s_node_num():
     # Get last char of hostname and figure out if int or char
     hostname = socket.gethostname()
-    syslog.syslog('Hostname is ' + hostname)
+    syslog('Hostname is ' + hostname)
 
     # Get last char of hostname and attept to convert to int; return 0 if non int, else return int
     if is_integer(hostname[-1]):
@@ -40,7 +41,7 @@ def blink_node_num(b,n):
 
 def resource_indication(bstick,offset):
     #go into a forever loop
-    syslog.syslog('Entering monitoring loop.')
+    syslog('Entering monitoring loop.')
     while True:
 
         t = time.localtime()
@@ -73,13 +74,13 @@ def main():
     bstick = blinkstick.find_first()
 
     if bstick is None:
-        syslog.syslog(syslog.LOG_ERR, 'Blinkstick not found, exiting...')
+        syslog(syslog.LOG_ERR, 'Blinkstick not found, exiting...')
         exit()
     else:    
-        syslog.syslog('Blinkstick found.')
+        syslog('Blinkstick found.')
 
     offset = get_k8s_node_num()
-    syslog.syslog('Offset is ' + str(offset) + ' seconds')
+    syslog('Offset is ' + str(offset) + ' seconds')
 
     blink_startup(bstick)
     if offset <> 0:
@@ -87,7 +88,7 @@ def main():
 
     resource_indication(bstick,offset)
 
-    syslog.syslog("Exiting normally.")
+    syslog("Exiting normally.")
 
 
 if __name__ == "__main__":
