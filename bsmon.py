@@ -24,36 +24,21 @@ def get_k8s_node_num():
         return 0
 
 
-# Blink LED 0 three 3 times to indicate service/application start
+# Blink front LED three times to indicate service/application start
 def blink_startup(b):
     b.set_color(index=0,red=0,green=0,blue=0)
     b.set_color(index=1,red=0,green=0,blue=0)
     b.blink(index=0,red=0,green=0,blue=255,repeats=3)
 
 
-# Blink LED 1 to indicate node number
+# Blink back LED to indicate node number
 def blink_node_num(b,n):
     b.set_color(index=0,red=0,green=0,blue=0)
     b.set_color(index=1,red=0,green=0,blue=0)
     b.blink(index=1,red=255,green=255,blue=255,repeats=n)
 
 
-def main():
-    bstick = blinkstick.find_first()
-
-    if bstick is None:
-        syslog.syslog(syslog.LOG_ERR, 'Blinkstick not found, exiting...')
-        exit()
-    else:    
-        syslog.syslog('Blinkstick found.')
-
-    offset = get_k8s_node_num()
-    syslog.syslog('Offset is ' + str(offset) + ' seconds')
-
-    blink_startup(bstick)
-    if offset <> 0:
-        blink_node_num(bstick,int(offset*10))
-
+def resource_indication(bstick,offset):
     #go into a forever loop
     syslog.syslog('Entering monitoring loop.')
     while True:
@@ -83,7 +68,26 @@ def main():
             bstick.set_color(index=0,red=cpu_intensity,green=255 - cpu_intensity,blue=0)
             bstick.set_color(index=1,red=mem_intensity,green=255 - mem_intensity,blue=0)
 
-syslog.syslog("Exiting normally.")
+
+def main():
+    bstick = blinkstick.find_first()
+
+    if bstick is None:
+        syslog.syslog(syslog.LOG_ERR, 'Blinkstick not found, exiting...')
+        exit()
+    else:    
+        syslog.syslog('Blinkstick found.')
+
+    offset = get_k8s_node_num()
+    syslog.syslog('Offset is ' + str(offset) + ' seconds')
+
+    blink_startup(bstick)
+    if offset <> 0:
+        blink_node_num(bstick,int(offset*10))
+
+    resource_indication(bstick,offset)
+
+    syslog.syslog("Exiting normally.")
 
 
 if __name__ == "__main__":
