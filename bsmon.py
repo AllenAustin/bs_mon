@@ -125,7 +125,7 @@ def halloween_indication(bstick, offset):
         light_color = randint(1,3)
         # purple
         if light_color == 1:
-            r = 102
+            r = 140
             g = 0
             b = 255
         # orange
@@ -148,7 +148,7 @@ def halloween_indication(bstick, offset):
         light_index = randint(0,1)
         # purple
         if light_color == 1:
-            r = 102
+            r = 140
             g = 0
             b = 255
         # orange
