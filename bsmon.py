@@ -1,6 +1,7 @@
 from blinkstick import blinkstick
 from syslog import syslog
-import psutil, time, socket
+from time import sleep, strftime, localtime
+import psutil, socket
 
 # Helper function - figures out if passed value could be converted to an integer
 def is_integer(n):
@@ -44,13 +45,13 @@ def resource_indication(bstick,offset):
     syslog('Entering monitoring loop.')
     while True:
 
-        t = time.localtime()
-        now = time.strftime("%S", t)
+        t = localtime()
+        now = strftime("%S", t)
         
         if now == "00":
             # sleep for a fraction of a second = node number
             if offset <> 0:
-                time.sleep(offset)
+                sleep(offset)
             
             # Set blinkstick colors
             bstick.set_color(index=0,red=0,green=0,blue=255)
@@ -58,7 +59,7 @@ def resource_indication(bstick,offset):
 
             # Sleep for 0.5 seconds to let colors dwell before they are returned to resource indication
             if offset <> 0:
-                time.sleep(0.5)
+                sleep(0.5)
 
         else:
             cpu = psutil.cpu_percent(interval=1)
