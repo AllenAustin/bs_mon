@@ -4,6 +4,7 @@ from time import sleep, strftime, localtime
 import psutil, socket
 
 # Helper function - figures out if passed value could be converted to an integer
+#
 def is_integer(n):
     try:
         int(n)
