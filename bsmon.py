@@ -180,9 +180,9 @@ def main():
     if offset <> 0:
         blink_node_num(bstick,int(offset*10))
 
-    #resource_indication(bstick,offset)
+    resource_indication(bstick,offset)
     #christmas_indication_gr(bstick,offset)
-    halloween_indication(bstick,offset)
+    #halloween_indication(bstick,offset)
 
     syslog("Exiting normally.")
 
