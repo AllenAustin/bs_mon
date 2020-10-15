@@ -14,7 +14,15 @@ def is_integer(n):
         return True
 
 
-# Determines node number if hostname is formatted as k8s node
+# Reads Pi CPU temp from file system and returns integer value
+def read_pi_temp():
+    import io 
+
+    f = open("/sys/class/thermal/thermal_zone0/temp", "r")
+    return int(f.readline ())
+
+
+# Determines node number if hostname is formatted as k8s node names are
 def get_k8s_node_num():
     # Get last char of hostname and figure out if int or char
     hostname = socket.gethostname()
@@ -41,6 +49,17 @@ def blink_node_num(b,n):
     b.blink(index=1,red=255,green=255,blue=255,repeats=n)
 
 
+def temp_indication(bstick,offset):
+    temp = read_pi_temp()
+    temp_intensity = int(255 * temp / 70)
+    if temp_intensity > 255:
+        temp_intensity = 255
+
+    bstick.set_color(index=0,red=temp_intensity,green=0,blue=255 - temp_intensity)
+    bstick.set_color(index=1,red=temp_intensity,green=0,blue=255 - temp_intensity)
+
+    sleep(2)
+
 def resource_indication(bstick,offset):
     #go into a forever loop
     syslog('Entering monitoring loop.')
@@ -54,9 +73,11 @@ def resource_indication(bstick,offset):
             if offset <> 0:
                 sleep(offset)
             
+            temp_indication(bstick,offset)
+
             # Set blinkstick colors
-            bstick.set_color(index=0,red=0,green=0,blue=255)
-            bstick.set_color(index=1,red=0,green=0,blue=255)
+            # bstick.set_color(index=0,red=0,green=0,blue=255)
+            # bstick.set_color(index=1,red=0,green=0,blue=255)
 
             # Sleep for 0.5 seconds to let colors dwell before they are returned to resource indication
             if offset <> 0:
