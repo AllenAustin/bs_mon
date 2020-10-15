@@ -1,10 +1,27 @@
+#!/usr/bin/env python
+
 from blinkstick import blinkstick
 from syslog import syslog
 from time import sleep, strftime, localtime
 import psutil, socket
+import signal
+
+# responds to OS requests to gracefully exit
+class GracefulKiller:
+  kill_now = False
+
+  def __init__(self):
+    signal.signal(signal.SIGINT, self.exit_gracefully)
+    signal.signal(signal.SIGTERM, self.exit_gracefully)
+    #signal.signal(signal.SIGHUP, readConfiguration)
+
+
+  def exit_gracefully(self,signum, frame):
+    self.kill_now = True
+
+
 
 # Helper function - figures out if passed value could be converted to an integer
-#
 def is_integer(n):
     try:
         int(n)
@@ -217,5 +234,10 @@ def main():
 
 
 if __name__ == "__main__":
-    # execute only if run as a script
     main()
+
+    #killer = GracefulKiller()
+    #while not killer.kill_now:
+    #    main()
+    
+    #syslog('Kill signal received.  Exiting gracefully.')
