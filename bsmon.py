@@ -61,9 +61,7 @@ def temp_indication(bstick,offset):
     elif temp_intensity < 0:
         temp_intensity = 0
 
-    print(temp)
-    print(temp_intensity)
-    print()
+    print("[" + strftime('%c', localtime()) + "] CPU Temp: " + str(temp+20) + "*C, LED Intensity: " + str(temp_intensity) )
 
     bstick.set_color(index=0,red=temp_intensity,green=0,blue=255 - temp_intensity)
     bstick.set_color(index=1,red=temp_intensity,green=0,blue=255 - temp_intensity)
