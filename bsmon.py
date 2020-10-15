@@ -19,7 +19,7 @@ def read_pi_temp():
     import io 
 
     f = open("/sys/class/thermal/thermal_zone0/temp", "r")
-    return int(f.readline ())
+    return int(f.readline ()) / 1000
 
 
 # Determines node number if hostname is formatted as k8s node names are
@@ -50,10 +50,20 @@ def blink_node_num(b,n):
 
 
 def temp_indication(bstick,offset):
-    temp = read_pi_temp()
-    temp_intensity = int(255 * temp / 70)
+    # Operating temp of the pi is somewhere between -40 and 80C, with thermal throttling
+    # happening around 70C, but the realistic range inside my house has a floor of 20C.  This
+    # gives us a realistic operating range of 80-20=60 degrees celsius.  So, we subtract 20
+    # from the returned temp and divide the scale by 60.
+    temp = read_pi_temp() - 20
+    temp_intensity = int(255 * temp / 60)
     if temp_intensity > 255:
         temp_intensity = 255
+    elif temp_intensity < 0:
+        temp_intensity = 0
+
+    print(temp)
+    print(temp_intensity)
+    print()
 
     bstick.set_color(index=0,red=temp_intensity,green=0,blue=255 - temp_intensity)
     bstick.set_color(index=1,red=temp_intensity,green=0,blue=255 - temp_intensity)
