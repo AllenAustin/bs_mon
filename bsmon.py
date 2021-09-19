@@ -111,8 +111,8 @@ def resource_indication(bstick,offset):
         else:
             cpu = psutil.cpu_percent(interval=1)
             mem = psutil.virtual_memory().percent
-            cpu_intensity = int(255 * cpu / 100)
-            mem_intensity = int(255 * mem / 100)
+            cpu_intensity = int(255 * cpu / 200)
+            mem_intensity = int(255 * mem / 200)
 
             bstick.set_color(index=0,red=cpu_intensity,green=255 - cpu_intensity,blue=0)
             bstick.set_color(index=1,red=mem_intensity,green=255 - mem_intensity,blue=0)
