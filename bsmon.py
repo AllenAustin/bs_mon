@@ -95,7 +95,7 @@ def resource_indication(bstick,offset):
         
         if now == "00":
             # sleep for a fraction of a second = node number
-            if offset <> 0:
+            if offset != 0:
                 sleep(offset)
             
             temp_indication(bstick,offset)
@@ -105,7 +105,7 @@ def resource_indication(bstick,offset):
             # bstick.set_color(index=1,red=0,green=0,blue=255)
 
             # Sleep for 0.5 seconds to let colors dwell before they are returned to resource indication
-            if offset <> 0:
+            if offset !=0:
                 sleep(0.5)
 
         else:
@@ -223,7 +223,7 @@ def main():
     syslog('Offset is ' + str(offset) + ' seconds')
 
     blink_startup(bstick)
-    if offset <> 0:
+    if offset != 0:
         blink_node_num(bstick,int(offset*10))
 
     resource_indication(bstick,offset)
