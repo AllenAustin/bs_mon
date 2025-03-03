@@ -1,11 +1,12 @@
 [Unit]
 Description=Blinkstick-indicated resource monitoring service
-After=multi-user.target
+After=network.target
 Conflicts=getty@tty1.service
 
 [Service]
-Type=simple
-ExecStart=/usr/bin/python3 /usr/bin/bsmon.py
+Type=exec
+WorkingDirectory=/home/pappa/projects/bs_mon
+ExecStart=/home/pappa/.virtualenvs/bs_mon/bin/python /home/pappa/projects/bs_mon/bsmon.py
 StandardInput=tty-force
 
 [Install]
